@@ -5,4 +5,4 @@ astronomical data analysis or inference problems.
 
 ## Tutorials
 
-* [Luminosity calibration](./luminosity-calbration)
+* [Luminosity calibration](./luminosity-calibration)
