@@ -1,0 +1,8 @@
+*pkl
+TGAS-allPlxErrorsVsGmag.fits
+.ipynb_checkpoints/
+__pycache__/
+surveyStats.pdf
+source_motion.pdf
+simulated_lsq_solutions.pdf
+minimum_parallax_solution.pdf
