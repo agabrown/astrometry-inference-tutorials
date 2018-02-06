@@ -1,4 +1,4 @@
-#DISTANCE ESTIMATION TOOL
+# DISTANCE ESTIMATION TOOL
 This tool estimates the distance and the distance 
 modulus from the trigonometric parallaxes using two
 Bayesian Methods with the priors suggested by Coryn 
