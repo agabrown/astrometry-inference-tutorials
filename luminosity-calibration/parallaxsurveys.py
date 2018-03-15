@@ -365,7 +365,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         return
 
     parLimitPlot=50.0
-    plxSnrLim = 1/0.175
+    plxSnrLim = 5.0
 
     positiveParallaxes = (simulatedSurvey.observedParallaxes > 0.0)
     goodParallaxes = (simulatedSurvey.observedParallaxes/simulatedSurvey.parallaxErrors >= plxSnrLim)
@@ -396,7 +396,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         logdens = kde.score_samples(samples)
         axA.plot(samples, np.exp(logdens), '-', lw=3, label='true')
     else:
-        axA.hist(simulatedSurvey.trueParallaxes, bins='auto', normed=True, histtype='step', lw=3,
+        axA.hist(simulatedSurvey.trueParallaxes, bins='auto', density=True, histtype='step', lw=3,
                 label='true')
 
     if usekde:
@@ -408,7 +408,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         logdens = kde.score_samples(samples)
         axA.plot(samples, np.exp(logdens), '-', lw=3, label='observed')
     else:
-        axA.hist(simulatedSurvey.observedParallaxes, bins='auto', normed=True, histtype='step', lw=3,
+        axA.hist(simulatedSurvey.observedParallaxes, bins='auto', density=True, histtype='step', lw=3,
                 label='observed')
 
     axA.set_xlabel(r'$\varpi$,  $\varpi_\mathrm{true}$ [mas]')
@@ -433,7 +433,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         logdens = kde.score_samples(samples)
         axB.plot(samples, np.exp(logdens), '-', label='true', lw=3)
     else:
-        axB.hist(simulatedSurvey.apparentMagnitudes, bins='auto', normed=True, histtype='step', lw=3,
+        axB.hist(simulatedSurvey.apparentMagnitudes, bins='auto', density=True, histtype='step', lw=3,
                 label='true')
 
     if usekde:
@@ -445,7 +445,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         logdens = kde.score_samples(samples)
         axB.plot(samples, np.exp(logdens), '-', label='observed', lw=3)
     else:
-        axB.hist(simulatedSurvey.observedMagnitudes, bins='auto', normed=True, histtype='step', lw=3,
+        axB.hist(simulatedSurvey.observedMagnitudes, bins='auto', density=True, histtype='step', lw=3,
                 label='observed')
 
     axB.set_xlabel("$m$, $m_\mathrm{true}$")
@@ -472,7 +472,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         logdens = kde.score_samples(samples)
         axC.plot(samples, np.exp(logdens), '-', label='true', lw=3)
     else:
-        axC.hist(simulatedSurvey.absoluteMagnitudes, bins='auto', normed=True, histtype='step', lw=3,
+        axC.hist(simulatedSurvey.absoluteMagnitudes, bins='auto', density=True, histtype='step', lw=3,
                 label='true')
 
     if (simulatedSurvey.absoluteMagnitudes[goodParallaxes].size >= 3):
@@ -486,7 +486,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
             logdens = kde.score_samples(samples)
             axC.plot(samples, np.exp(logdens), '-', label=r'$\varpi/\sigma_\varpi\geq{0:.1f}$'.format(plxSnrLim), lw=3)
         else:
-            axC.hist(simulatedSurvey.absoluteMagnitudes[goodParallaxes], bins='auto', normed=True, histtype='step', lw=3,
+            axC.hist(simulatedSurvey.absoluteMagnitudes[goodParallaxes], bins='auto', density=True, histtype='step', lw=3,
                     label=r'$\varpi/\sigma_\varpi\geq{0:.1f}$'.format(plxSnrLim))
     
     axC.set_xlabel("$M$")
@@ -497,19 +497,18 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
 
     axD = fig.add_subplot(2,2,4)
     apply_tufte(axD, withgrid=False)
-    axD.set_prop_cycle(cycler('color', get_distinct(2)))
-    if len(relParErr) < 1000:
-        axD.semilogx(relParErr,deltaAbsMag,'.')
-        axD.set_xlabel("$\\sigma_\\varpi/\\varpi$")
-        axD.set_xlim(1.0e-3,100)
-        axD.axvline(x=0.175, lw=1, color='grey')
-    else:
-        axD.hexbin(np.log10(relParErr),deltaAbsMag,C=None, bins='log', cmap=cm.Blues_r, mincnt=1)
-        axD.set_xlabel("$\\log_{10}(\\sigma_\\varpi/\\varpi)$")
-        axD.set_xlim(-3,2)
-        axD.axvline(x=np.log10(0.175), lw=1, color='grey')
-    axD.set_ylabel("$\\widetilde{M}-M_\\mathrm{true}$")
-    axD.set_ylim(-10,6)
+    axD.set_prop_cycle(cycler('color', get_distinct(3)))
+    #if len(relParErr) < 1000:
+    axD.plot(simulatedSurvey.trueParallaxes, simulatedSurvey.observedParallaxes-simulatedSurvey.trueParallaxes, '.')
+    axD.plot(simulatedSurvey.trueParallaxes[positiveParallaxes],
+            simulatedSurvey.observedParallaxes[positiveParallaxes]-simulatedSurvey.trueParallaxes[positiveParallaxes], '.')
+    axD.plot(simulatedSurvey.trueParallaxes[goodParallaxes],
+            simulatedSurvey.observedParallaxes[goodParallaxes]-simulatedSurvey.trueParallaxes[goodParallaxes], 'o')
+    #else:
+    #    axD.hexbin(simulatedSurvey.trueParallaxes,
+    #            simulatedSurvey.observedParallaxes-simulatedSurvey.trueParallaxes, C=None, cmap=cm.Blues_r, mincnt=1)
+    axD.set_xlabel(r"$\varpi_\mathrm{true}$ [mas]")
+    axD.set_ylabel("$\\varpi-\\varpi_\\mathrm{true}$ [mas]")
 
     plt.suptitle("Simulated survey statistics: $N_\\mathrm{{stars}}={0}$, ".format(simulatedSurvey.numberOfStars) +
             "$m_\\mathrm{{lim}}={0}$, ".format(simulatedSurvey.apparentMagnitudeLimit) +

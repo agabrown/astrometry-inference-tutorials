@@ -3,7 +3,7 @@ PyStan version of the luminosity calibration (inference) example discussed in th
 book 'Astrometry for Astrophysics', 2013, edited by W.F. van Altena (Cambridge University Press). Here
 distance instead of parallax priors are used.
 
-Anthony Brown Nov 2017 - Dec 2017
+Anthony Brown Nov 2017 - Mar 2018
 """
 
 import numpy as np
@@ -19,40 +19,10 @@ from parallaxsurveys import UniformDistributionSingleLuminosityHip as udslH
 from parallaxsurveys import UniformDistributionSingleLuminosityTGAS as udslT
 from parallaxsurveys import showSurveyStatistics
 
-def naive_lum_estimate(obsplx, errplx, obsmag, errmag):
-    """
-    Make a naive estimate of the mean absolute magnitude and its standard deviation, include also
-    Lutz-Kelker corrections.
-
-    Parameters
-    ----------
-
-    obsplx - observed parallaxes
-    errplx - errors on the observed parallaxes
-    obsmag - observed apparent magnitudes
-    errmag - errors on observed apparent magnitudes
-    """
-    lk_correction = interp1d(np.linspace(0,0.175,8), np.array([0.0, -0.01, -0.02, -0.06, -0.11, -0.18,
-        -0.28, -0.43]), kind='quadratic')
-    lk_relative_error_limit = 0.175
-    goodplx = np.where(obsplx/errplx >= 1/lk_relative_error_limit)
-
-    if goodplx[0].size>=3:
-        absMagNaive = obsmag[goodplx] + 5*np.log10(obsplx[goodplx]) - 10.0
-        absMagNaiveCorrected = absMagNaive + lk_correction(errplx[goodplx]/obsplx[goodplx])
-        print("Number of 'good' parallaxes used {0}/{1}".format(obsplx[goodplx].size, obsplx.size))
-        print("### Naive estimate ###")
-        print("Mean and sigma: {0:.2f}, {1:.2f}".format(absMagNaive.mean(), absMagNaive.std()))                                                               
-        print("### Naive estimate after LK correction ###")
-        print("Mean and sigma: {0:.2f}, {1:.2f}".format(absMagNaiveCorrected.mean(), absMagNaiveCorrected.std()))
-    else:
-        print("Cannot make naive estimate")
-
 def run_luminosity_inference(args):
     """
     Generate the simulated parallax survey and then perform the Bayesian inference to estimate the mean
-    absolute magnitude of the stars and the variance thereof. Compare to naive estimates of the mean
-    absolute magnitude, including the Lutz-Kelker correction.
+    absolute magnitude of the stars and the variance thereof. 
 
     Parameters
     ----------
@@ -112,9 +82,6 @@ def run_luminosity_inference(args):
     
     print()
     print(fit)
-    print()
-    naive_lum_estimate(survey.observedParallaxes, survey.parallaxErrors,
-            survey.observedMagnitudes, survey.magnitudeErrors)
 
     samples = np.vstack([fit.extract()['meanAbsMag'], fit.extract()['sigmaAbsMag']]).transpose()
     
