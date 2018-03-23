@@ -37,9 +37,9 @@ def simDistancesConstantSpaceDensity(numStars, minDistance, maxDistance):
 
     Vector of distance values
     """
-    x=uniform.rvs(loc=0.0, scale=1.0, size=numStars)
-    minDCubed=np.power(minDistance,3.0)
-    maxDCubed=np.power(maxDistance,3.0)
+    x = uniform.rvs(loc=0.0, scale=1.0, size=numStars)
+    minDCubed = np.power(minDistance,3.0)
+    maxDCubed = np.power(maxDistance,3.0)
     return np.power(minDCubed+x*(maxDCubed-minDCubed),1.0/3.0)
 
 def simGaussianAbsoluteMagnitude(numStars, mean, stddev):
@@ -126,15 +126,23 @@ class ParallaxSurvey:
         
         Alternatively this simulation can be seen as applying a selection to the catalogued magnitudes.
         """
-        indices=(self.observedMagnitudes <= self.apparentMagnitudeLimit)
-        self.trueParallaxes=self.trueParallaxes[indices].flatten()
-        self.absoluteMagnitudes=self.absoluteMagnitudes[indices].flatten()
-        self.apparentMagnitudes=self.apparentMagnitudes[indices].flatten()
-        self.parallaxErrors=self.parallaxErrors[indices].flatten()
-        self.magnitudeErrors=self.magnitudeErrors[indices].flatten()
-        self.observedParallaxes=self.observedParallaxes[indices].flatten()
-        self.observedMagnitudes=self.observedMagnitudes[indices].flatten()
-        self.numberOfStarsInSurvey=len(self.observedMagnitudes)
+        self.trueParallaxesNoLim = self.trueParallaxes
+        self.absoluteMagnitudesNoLim = self.absoluteMagnitudes
+        self.apparentMagnitudesNoLim = self.apparentMagnitudes
+        self.parallaxErrorsNoLim = self.parallaxErrors
+        self.magnitudeErrorsNoLim = self.magnitudeErrors
+        self.observedParallaxesNoLim = self.observedParallaxes
+        self.observedMagnitudesNoLim = self.observedMagnitudes
+
+        indices = (self.observedMagnitudes <= self.apparentMagnitudeLimit)
+        self.trueParallaxes = self.trueParallaxes[indices].flatten()
+        self.absoluteMagnitudes = self.absoluteMagnitudes[indices].flatten()
+        self.apparentMagnitudes = self.apparentMagnitudes[indices].flatten()
+        self.parallaxErrors = self.parallaxErrors[indices].flatten()
+        self.magnitudeErrors = self.magnitudeErrors[indices].flatten()
+        self.observedParallaxes = self.observedParallaxes[indices].flatten()
+        self.observedMagnitudes = self.observedMagnitudes[indices].flatten()
+        self.numberOfStarsInSurvey = len(self.observedMagnitudes)
 
 class UniformSpaceDistributionSingleLuminosity(ParallaxSurvey):
     """
@@ -162,8 +170,8 @@ class UniformSpaceDistributionSingleLuminosity(ParallaxSurvey):
         surveyLimit - Apparent magnitude limit of the survey (default: no limit)
         """
         super().__init__(numberOfStars, minDistance, maxDistance, surveyLimit)
-        self.meanAbsoluteMagnitude=meanAbsoluteMagnitude
-        self.stddevAbsoluteMagnitude=stddevAbsoluteMagnitude
+        self.meanAbsoluteMagnitude = meanAbsoluteMagnitude
+        self.stddevAbsoluteMagnitude = stddevAbsoluteMagnitude
 
     def generateObservations(self):
         """
@@ -416,6 +424,8 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
     leg=axA.legend(loc='best', handlelength=1.0)
     for t in leg.get_texts():
         t.set_fontsize(14)
+    axA.text(0.025, 0.9, 'a', horizontalalignment='center', verticalalignment='center',
+            transform=axA.transAxes, weight='bold', fontsize=30)
 
     axB = fig.add_subplot(2,2,2)
     apply_tufte(axB, withgrid=False)
@@ -450,9 +460,11 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
 
     axB.set_xlabel("$m$, $m_\mathrm{true}$")
     axB.set_ylabel("$p(m)$, $p(m_\mathrm{true})$")
-    leg=axB.legend(loc='upper left', handlelength=1.0)
+    leg=axB.legend(loc=(0.03,0.55), handlelength=1.0)
     for t in leg.get_texts():
         t.set_fontsize(14)
+    axB.text(0.025, 0.9, 'b', horizontalalignment='center', verticalalignment='center',
+            transform=axB.transAxes, weight='bold', fontsize=30)
 
     axC = fig.add_subplot(2,2,3)
     apply_tufte(axC, withgrid=False)
@@ -491,24 +503,34 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
     
     axC.set_xlabel("$M$")
     axC.set_ylabel("$p(M)$")
-    leg=axC.legend(loc='best', handlelength=1.0)
+    leg=axC.legend(loc=(0.03,0.55), handlelength=1.0)
     for t in leg.get_texts():
         t.set_fontsize(14)
+    axC.text(0.025, 0.9, 'c', horizontalalignment='center', verticalalignment='center',
+            transform=axC.transAxes, weight='bold', fontsize=30)
 
     axD = fig.add_subplot(2,2,4)
     apply_tufte(axD, withgrid=False)
     axD.set_prop_cycle(cycler('color', get_distinct(3)))
-    #if len(relParErr) < 1000:
-    axD.plot(simulatedSurvey.trueParallaxes, simulatedSurvey.observedParallaxes-simulatedSurvey.trueParallaxes, '.')
+    axD.plot(simulatedSurvey.trueParallaxesNoLim,
+            simulatedSurvey.observedParallaxesNoLim-simulatedSurvey.trueParallaxesNoLim, 'k,',
+            label=r'$m_\mathrm{lim}=\infty$')
+    axD.plot(simulatedSurvey.trueParallaxes,
+            simulatedSurvey.observedParallaxes-simulatedSurvey.trueParallaxes, '.',
+            label=r'$m_\mathrm{{lim}}={0}$'.format(simulatedSurvey.apparentMagnitudeLimit))
     axD.plot(simulatedSurvey.trueParallaxes[positiveParallaxes],
-            simulatedSurvey.observedParallaxes[positiveParallaxes]-simulatedSurvey.trueParallaxes[positiveParallaxes], '.')
+            simulatedSurvey.observedParallaxes[positiveParallaxes]-simulatedSurvey.trueParallaxes[positiveParallaxes],
+            '.', label=r'$\varpi>0$')
     axD.plot(simulatedSurvey.trueParallaxes[goodParallaxes],
-            simulatedSurvey.observedParallaxes[goodParallaxes]-simulatedSurvey.trueParallaxes[goodParallaxes], 'o')
-    #else:
-    #    axD.hexbin(simulatedSurvey.trueParallaxes,
-    #            simulatedSurvey.observedParallaxes-simulatedSurvey.trueParallaxes, C=None, cmap=cm.Blues_r, mincnt=1)
+            simulatedSurvey.observedParallaxes[goodParallaxes]-simulatedSurvey.trueParallaxes[goodParallaxes],
+            'o', label=r'$\varpi/\sigma_\varpi\geq{0:.1f}$'.format(plxSnrLim))
     axD.set_xlabel(r"$\varpi_\mathrm{true}$ [mas]")
     axD.set_ylabel("$\\varpi-\\varpi_\\mathrm{true}$ [mas]")
+    leg=axD.legend(loc='best', handlelength=0.5, ncol=2)
+    for t in leg.get_texts():
+        t.set_fontsize(14)
+    axD.text(0.025, 0.9, 'd', horizontalalignment='center', verticalalignment='center',
+            transform=axD.transAxes, weight='bold', fontsize=30)
 
     plt.suptitle("Simulated survey statistics: $N_\\mathrm{{stars}}={0}$, ".format(simulatedSurvey.numberOfStars) +
             "$m_\\mathrm{{lim}}={0}$, ".format(simulatedSurvey.apparentMagnitudeLimit) +
