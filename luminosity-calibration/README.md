@@ -1,6 +1,8 @@
 # luminosity-calibration-tutorial
-Tutorial on use of parallaxes in luminosity calibration; accompanies the Gaia DR2 paper on the proper use
+Tutorial on use of parallaxes in luminosity calibration; accompanies the Gaia DR2 paper on the use
 of parallaxes (Luri et al. 2018 in prep).
+
+_Code and notebooks by Anthony Brown <brown@strw.leidenuniv.nl>_
 
 This tutorial expands on the luminosity inference examples discussed in chapter 16 in 'Astrometry for
 Astrophysics', 2013, edited by W.F. van Altena (Cambridge University Press). It can also be seen as a
@@ -23,7 +25,7 @@ This tutorial depends on the following Python packages (besides numpy, scipy, ma
 
 The [parallax survey simulation module](./parallaxsurveys.py) contains a Hipparcos and a TGAS error
 model. For TGAS the distribution of parallax errors is assumed to be independent of magnitude. The
-probability density of the parallaxes error distribution is obtained as a kernel density estimate for all
+probability density of the parallax error distribution is obtained as a kernel density estimate from all
 parallax errors in the TGAS catalogue. One can use the
 [fit-tgas-parallax-errors.py](./fit-tgas-parallax-errors.py) Python code to try to fit this distribution
 with an inverse Gamma distribution. The necessary data can be extracted from the [Gaia
@@ -34,6 +36,6 @@ archive](https://archives.esac.esa.int/gaia) with the following query (store as
 
 The survey simulation code makes use directly of the KDE mentioned above.
 
-## Folder contents
+## Subfolder contents
 
 pgm : Probabilistic graphical models for the tutorial
