@@ -14,24 +14,24 @@ __Any errors in this tutorial are of course mine. Comments are welcome__
 ## Notebooks
 
 The following python notebooks are included with this tutorial:
-* [Lumininosity calibration with a distance prior](./Luminosity_Inference_DistPrior.ipynb) This is
+* [Lumininosity calibration with a distance prior.](./Luminosity_Inference_DistPrior.ipynb) This is
   the main tutorial explaining how to infer from a set of measured parallaxes and apparent
   magnitudes of stars, their mean absolute magnitude and the standard deviation around the mean. In
   particular this tutorial is intended to demonstrate that negative and low-quality parallaxes can
   be used without any problem in the analysis. The four notebooks below provide supporting material.
-* [Simulated parallax surveys](./Parallax_survey_simulation.ipynb) This notebook explains in more
+* [Simulated parallax surveys.](./Parallax_survey_simulation.ipynb) This notebook explains in more
   detail how the simulated parallax survey was created which is used in the luminosity calibration
   tutorial. It also demonstrates aspects of the effect of selecting stars with high-quality
   (introducing a bias on the inferred absolute magnitude) and of the effect of the survey magnitude
   limit (including the mathematics of prediction the apparent magnitude distribution).
-* [Handling data truncation](./Handling_Data_Truncation.ipynb) A simplified demonstration of how to
+* [Handling data truncation.](./Handling_Data_Truncation.ipynb) A simplified demonstration of how to
   handle data truncation (i.e. selection functions) in a Bayesian analysis.  It is meant to provide
   more insight into the treatment of the survey magnitude limit in the luminosity calibration
   problem.
 * [What's with the negative parallaxes?](./DemoNegativeParallax.ipynb) A simplified explanation on
   how negative parallaxes arise in astrometric surveys. The aim is to show why negative parallaxes
   are perfectly legitimate outcomes of the astrometric measurement process.
-* [Distribution of quantities calculated from parallax data](./Parallax_related_quantities.ipynb)
+* [Distribution of quantities calculated from parallax data.](./Parallax_related_quantities.ipynb)
   Provides complementary demonstrations to section 3 of Luri et al. (2018) as to why calculating
   distances or tangential velocities of stars from parallaxes through the naive inversion of the
   latter leads to problems. This is done by contrasting the naive approach that taken in
