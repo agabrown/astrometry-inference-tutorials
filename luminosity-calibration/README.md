@@ -14,7 +14,7 @@ __Any errors in this tutorial are of course mine. Comments are welcome__
 ## Notebooks
 
 The following python notebooks are included with this tutorial:
-* [Lumininosity calibration with a distance prior.](./Luminosity_Inference_DistPrior.ipynb) This is
+* [Luminosity calibration with a distance prior.](./Luminosity_Inference_DistPrior.ipynb) This is
   the main tutorial explaining how to infer from a set of measured parallaxes and apparent
   magnitudes of stars, their mean absolute magnitude and the standard deviation around the mean. In
   particular this tutorial is intended to demonstrate that negative and low-quality parallaxes can
@@ -39,7 +39,8 @@ The following python notebooks are included with this tutorial:
 
 ## Prerequisites
 
-This tutorial depends on the following Python packages (besides numpy, scipy, matplotlib):
+This tutorial depends on the following Python packages (besides [numpy](http://numpy.org/),
+[scipy](https://www.scipy.org/), [matplotlib](http://matplotlib.org/)):
 * [PyStan](http://mc-stan.org/users/interfaces/pystan.html)
 * [scikit-learn](http://scikit-learn.org)
 * [astropy](http://www.astropy.org/index.html)
