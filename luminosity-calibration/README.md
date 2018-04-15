@@ -39,8 +39,8 @@ The following python notebooks are included with this tutorial:
 
 ## Prerequisites
 
-This tutorial depends on the following Python packages (besides [numpy](http://numpy.org/),
-[scipy](https://www.scipy.org/), [matplotlib](http://matplotlib.org/)):
+This tutorial depends on the following Python packages (besides [scipy](https://www.scipy.org/),
+[numpy](http://numpy.org/), [matplotlib](https://matplotlib.org/)):
 * [PyStan](http://mc-stan.org/users/interfaces/pystan.html)
 * [scikit-learn](http://scikit-learn.org)
 * [astropy](http://www.astropy.org/index.html)
