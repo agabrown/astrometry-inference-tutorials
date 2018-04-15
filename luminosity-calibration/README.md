@@ -49,6 +49,37 @@ This tutorial depends on the following Python packages (besides [scipy](https://
 * [PyGaia](https://github.com/agabrown/PyGaia)
 * [daft](https://github.com/dfm/daft) (Optional)
 
+## Python modules
+
+The notebooks rely on the following python modules which are provided as separate code:
+* Code to style the plots: [plotstyles.py](./plotstyles.py),
+  [distinct_colours.py](./distinct_colours.py).
+* Version of [astroML's](http://www.astroml.org/)
+  [convert_to_stdev](https://github.com/astroML/astroML/blob/master/astroML/plotting/mcmc.py) which
+  is robust to NaNs: [mcmcplotting.py](./mcmcplotting.py).
+* Robust statistics (median etc): [robuststats.py](./robuststats.py).
+* Tools for compiling Stan models: [stantools.py](./stantools.py).
+* Fit TGAS parallax error distribution:
+  [fit-tgas-parallax-errors.py](./fit-tgas-parallax-errors.py).
+* Parallax survey simulation modules, including plotting summary of survey:
+  [parallaxsurveys.py](./parallaxsurveys.py).
+* Luminosity calibration code:
+  [luminosity_inference_distance_prior.py](./luminosity_inference_distance_prior.py), which runs the
+  Stan models for the luminosity inference problem. This code is intended for running the notebook
+  examples from the command line. The parallax survey simulation parameters can be set with the
+  command line arguments.
+
+## Stan models
+
+The following Stan models are included for use in the notebooks or with the command line version of
+the luminosity inference problem:
+* [truncated_data.stan](./truncated_data.stan). Simplified demonstration of the treatment of
+  truncated data.
+* [luminosity_inference_volume_complete_distance_prior.stan](./luminosity_inference_volume_complete_distance_prior.stan).
+  Luminosity inference for a volume complete parallax survey.
+* [luminosity_inference_distance_prior.stan](./luminosity_inference_distance_prior.stan).
+  Luminosity inference for a magnitude limited parallax survey.
+
 ## TGAS parallax error model
 
 The [parallax survey simulation module](./parallaxsurveys.py) contains a Hipparcos and a TGAS error
