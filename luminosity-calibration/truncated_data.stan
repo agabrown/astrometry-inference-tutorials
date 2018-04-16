@@ -3,7 +3,8 @@
  * of samples is available. That is samples x_i were generated from the normal distribution and then all
  * samples with x_i > xlim were discarded (without reporting the number of discarded samples).
  *
- * Anthony Brown Nov 2017 - Jan 2018
+ * Anthony G.A. Brown Nov 2017 - Jan 2018
+ * <brown@strw.leidenuniv.nl>
  */
 
 functions {

@@ -2,7 +2,8 @@
 Provides various methods for robust estimates of simple statistics such as the mean and variance, which
 in this case are estimated through the median and RSE.
 
-Anthony Brown May 2015
+Anthony G.A. Brown May 2015
+<brown@strw.leidenuniv.nl>
 """
 
 from numpy import median

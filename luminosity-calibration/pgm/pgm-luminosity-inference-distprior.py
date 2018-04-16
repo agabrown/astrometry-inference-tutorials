@@ -1,7 +1,8 @@
 """
 Draw probabilistic graphical models for the luminosity inference tutorial.
 
-Anthony Brown Nov 2017 - Nov 2017
+Anthony G.A. Brown Nov 2017 - Nov 2017
+<brown@strw.leidenuniv.nl>
 """
 
 from matplotlib import rc

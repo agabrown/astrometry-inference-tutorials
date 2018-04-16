@@ -9,7 +9,8 @@
  * See chapter 16 in 'Astrometry for Astrophysics', 2013, edited by W.F. van Altena (Cambridge
  * University Press).
  *
- * Anthony Brown Nov 2017 - Jan 2018
+ * Anthony G.A. Brown Nov 2017 - Jan 2018
+ * <brown@strw.leidenuniv.nl>
  */
 
 functions {

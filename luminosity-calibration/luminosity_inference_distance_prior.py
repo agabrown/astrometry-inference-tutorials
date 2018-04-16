@@ -1,9 +1,10 @@
 """
-PyStan version of the luminosity calibration (inference) example discussed in the chapter by Brown in the
-book 'Astrometry for Astrophysics', 2013, edited by W.F. van Altena (Cambridge University Press). Here
-distance instead of parallax priors are used.
+Command line version of the luminosity inference problem discussed in the notebook
+Luminosity_Inference_DistPrior.ipynb, part of the tutorials accompanying the paper by Luri et al. (2018)
+on the use of Gaia astrometry.
 
-Anthony Brown Nov 2017 - Mar 2018
+Anthony G.A. Brown Nov 2017 - Apr 2018
+<brown@strw.leidenuniv.nl>
 """
 
 import numpy as np

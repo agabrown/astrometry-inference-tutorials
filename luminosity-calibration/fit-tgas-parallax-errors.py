@@ -2,7 +2,8 @@
 Quick and dirty fit of TGAS parallax error distribution.
 Uses an inverse Gamma distribution.
 
-Anthony Brown Aug 2016 - Nov 2017
+Anthony G.A. Brown Aug 2016 - Nov 2017
+<brown@strw.leidenuniv.nl>
 """
 
 import numpy as np

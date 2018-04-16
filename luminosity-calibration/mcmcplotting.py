@@ -1,7 +1,8 @@
 """
 Provides plotting utilities for MCMC related data.
 
-Anthony Brown Nov 2017 - Nov 2017
+Anthony G.A. Brown Nov 2017 - Nov 2017
+<brown@strw.leidenuniv.nl>
 """
 import numpy as np
 

@@ -2,7 +2,8 @@
 Provide classes and methods for simulating simple (magnitude limited) parallax surveys. These consist of
 measurements of the parallax and the apparent magnitude of the stars.
 
-Anthony Brown 2011-2018
+Anthony G.A. Brown 2011-2018
+<brown@strw.leidenuniv.nl>
 """
 
 import numpy as np

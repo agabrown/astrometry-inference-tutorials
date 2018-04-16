@@ -1,7 +1,9 @@
 """
-Utility functions for using PyStan.
+Utility functions for using PyStan. Based on the examples at
+https://pystan.readthedocs.io/en/latest/api.html
 
-Anthony Brown June 2017
+Anthony G.A. Brown June 2017
+<brown@strw.leidenuniv.nl>
 """
 __all__ = ['load_stan_code', 'stan_cache']
 
