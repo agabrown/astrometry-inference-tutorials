@@ -1,7 +1,8 @@
 # astrometry-inference-tutorials
-This is the __placeholder repository__ for the tutorials that accompany the Gaia DR2 paper (Luri et
-al. 2018, A&A Special Issue for Gaia DR2) describing recommended practices for the use of
-astrometric data (in particular parallaxes) in astronomical data analysis problems.
+This is the __placeholder repository__ for the tutorials that accompany the Gaia DR2 paper [Luri et
+al. 2018, A&A Special Issue for Gaia DR2](https://doi.org/10.1051/0004-6361/201832964) (also
+available on [arxiv.org](https://arxiv.org/abs/1804.09376)) describing recommended practices for the
+use of astrometric data (in particular parallaxes) in astronomical data analysis problems.
 
 The official version will be hosted by the
 [ESA Bitbucket
