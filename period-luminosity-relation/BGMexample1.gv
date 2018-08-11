@@ -1,0 +1,22 @@
+digraph BGMexample1 {
+
+    margin=0;
+    ratio=0.6; 
+    compound=true; 
+    node[style=filled,shape=circle,color=black, fillcolor=cadetblue3,fixedsize=false];
+    rankdir =TB;
+    
+    subgraph cluster0 {
+        label=N;
+        # Observations
+        x_rec[label=<x<SUB>obs,i</SUB>>,shape=doublecircle]; 
+    }
+
+    # Parameters
+    mu[label="&mu;"];
+    sigma[label="&sigma;",shape=square];
+
+    # Links to observed nodes
+    mu -> x_rec;
+    sigma -> x_rec;
+}
