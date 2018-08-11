@@ -22,7 +22,7 @@ The tutorial is written in R and its execution (but not its visualization) requi
 the following packages:
 
 * rstan
-* ggplo2
+* ggplot2
 
 For the inline generation of the directed acyclic graphs (DAGs) the following are needed. The
 installation of these can be skipped if the [modified version](TutorialPLZ_R.ipynb) of the tutorial
