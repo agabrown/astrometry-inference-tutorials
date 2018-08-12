@@ -14,12 +14,16 @@ this can be dropped wherever you like on your hard drive without needing root pe
 Subsequently install the following:
 
 ```
-> conda install pystan
 > conda install -c astropy corner
 > pip install daft (optional)
 ```
 
 where the installation of `daft` is optional.
+
+#### PyStan
+
+Follow the instructions [here](https://pystan.readthedocs.io/en/latest/getting_started.html). In
+particular, use `pip install pystan`. The necessary compilers can be installed using `conda`.
 
 ### R Environment
 
@@ -40,15 +44,23 @@ installations):
 
 > install.packages("png")
 > install.packages("ggplot2")
-
-> Sys.setenv(MAKEFLAGS = "-j4") 
-> install.packages("rstan", type = "source")
 ```
 
 Note that the [period luminosity relation](./period-luminosity-relation) tutorial requires the
 installation of R packages related to graph drawing, as well as the `rpy2` interface between R and
 Python. This can be avoided by using the [modified
 version](./period-luminosity-relation/TutorialPLZ_R.ipynb) of that tutorial.
+
+#### RStan
+
+Follow the instructions
+[here](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux) for the installation
+of Rstan. Where the last step is to do from within R (run as root for a system wide installation):
+
+```
+> Sys.setenv(MAKEFLAGS = "-j4") 
+> install.packages("rstan", type = "source")
+```
 
 ## Windows (only Windows 10 tested)
 
