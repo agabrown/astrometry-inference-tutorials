@@ -49,3 +49,67 @@ Note that the [period luminosity relation](./period-luminosity-relation) tutoria
 installation of R packages related to graph drawing, as well as the `rpy2` interface between R and
 Python. This can be avoided by using the [modified
 version](./period-luminosity-relation/TutorialPLZ_R.ipynb) of that tutorial.
+
+## Windows (only Windows 10 tested)
+
+### Python environment
+
+The [anaconda](https://www.anaconda.com/download/) distribution is again recommended. After
+installation open the Anaconda prompt and install the following:
+
+```
+> conda install -c astropy corner
+> pip install daft (optional)
+```
+
+where the installation of `daft` is optional.
+
+__IT IS IMPORTANT__ to now add the location of the anaconda and python executables to your path:
+Go to "Settings" (from the windows start menu for example) and then search for "environment" in the
+search field at the top of the window. Select "Edit environment variables for your account" and then
+edit the "Path" variable, adding the following two paths:
+
+```
+C:\Users\....\Anaconda3
+C:\Users\....\Anaconda3\Scripts
+```
+
+#### PyStan
+
+Installation instructions for pystan can be found
+[here](https://pystan.readthedocs.io/en/latest/windows.html#windows). Note in particular that
+installation through conda (`conda install pystan`) does not seem to work well. So use pip (after
+having installed the necessary build tools as detailed in the instructions).
+
+### R environment
+
+Install the windows version of R and then install the following packages while running R as
+"administrator":
+
+```
+> install.packages("mvtnorm")
+> install.packages("PolynomF")
+> install.packages("fields")
+> install.packages("RColorBrewer")
+
+> install.packages("png")
+> install.packages("ggplot2")
+```
+
+Note that the [period luminosity relation](./period-luminosity-relation) tutorial requires the
+installation of R packages related to graph drawing, as well as the `rpy2` interface between R and
+Python. This can be avoided by using the [modified
+version](./period-luminosity-relation/TutorialPLZ_R.ipynb) of that tutorial.
+
+#### RStan
+
+Now follow the instructions
+[here](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows) for the installation of
+Rstan. Subsequently make sure that your can run R notebooks by following the
+[instructions](https://irkernel.github.io/installation/) on
+[irkernel.github.io](https://irkernel.github.io). Step 1/2 should be done while running as R as
+"administrator".
+
+## Mac OsX
+
+Pending...
