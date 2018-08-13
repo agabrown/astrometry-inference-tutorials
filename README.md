@@ -10,8 +10,25 @@ Installation instructions to make sure you have everything needed to run the tut
 
 ## Tutorials
 
-* [Luminosity calibration](./luminosity-calibration)
-* [Infer distance to a single source](./single-source)
-* [Infer distance to and size of a cluster](./multiple-source)
-* [Infer distance and velocity of a source](./3d-distance)
-* [The period luminosity relation](./period-luminosity-relation)
+* [Infer distance to a single source](./single-source) (R)
+ * [Bayesian inference of distance from parallax only for a single source](single-source/tutorial/Distance_inference-single_source.ipynb)
+ * [Comparison of distance estimators](/single-source/GraphicalUserInterface/Tutorial.ipynb)
+
+* [Infer distance to and size of a cluster](./multiple-source) (R)
+ * [Notebook](./multiple-source/Distance_inference-multiple_sources.ipynb)
+
+* [Infer distance and tangential velocity of a source](./3d-distance) (R)
+ * [Notebook](./3d-distance/Distance_and_tangential_velocity_inference.ipynb)
+
+* [Luminosity calibration](./luminosity-calibration) (Python)
+ * [Explanation of negative parallaxes](./luminosity-calibration/DemoNegativeParallax.ipynb)
+ * [Distribution of quantities derived from parallaxes for naive estimators and posteriors based on
+   minimal prior information](./luminosity-calibration/Parallax_related_quantities.ipynb)
+ * [Basics of handling data truncation](./luminosity-calibration/Handling_Data_Truncation.ipynb)
+ * [Simulation of parallax surveys](./luminosity-calibration/Parallax_survey_simulation.ipynb)
+ * [Inference of the luminosity of a class of
+   stars](./luminosity-calibration/Luminosity_Inference_DistPrior.ipynb)
+
+* [The period luminosity relation](./period-luminosity-relation) (R and Python)
+ * [R notebook interfaced to python](./period-luminosity-relation/TutorialPLZ-rp2.ipynb)
+ * [R notebook](./period-luminosity-relation/TutorialPLZ_R.ipynb)
