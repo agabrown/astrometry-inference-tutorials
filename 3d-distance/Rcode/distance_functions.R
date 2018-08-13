@@ -281,7 +281,8 @@ d.likecluster1 <- function(w, wsd, rc, sc) {
 # Given vectors or scalars {w}, {wsd}, {costheta}, and scalar rc, sc, 
 # compute (normalized) likelihood P({w} | {wsd}, {costheta}, rc, sc), 
 # where rc and sc are cluster distance.
-d.likecluster2 <- function(w, wsd, costheta=NULL, rc, sc) {
+# If retlog=TRUE then return the (natural) log likelihood
+d.likecluster2 <- function(w, wsd, costheta=NULL, rc, sc, retlog=TRUE) {
   if(any(wsd<=0) || rc<=0 || sc<=0) stop("wsd, rc, sc must all be positive")
   # integrand takes a vector r (others all scalar) and returns vector of same length
   intFail <- 0
@@ -316,8 +317,12 @@ d.likecluster2 <- function(w, wsd, costheta=NULL, rc, sc) {
     }
     #cat(like[i], "\n")
   }
-  #if(intFail>0) cat("Numerical integration failures:", intFail, "\n")
+  if(intFail>0) cat("Numerical integration failures:", intFail, "\n")
   #cat(intFail, prod(like), "\n")
-  return(prod(like))
+  if(retlog) {
+    return(sum(log(like))) 
+  } else {
+    return(prod(like)) 
+  }
 }
 

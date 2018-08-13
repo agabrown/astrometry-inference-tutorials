@@ -1,9 +1,9 @@
-# CBJ November 2017 (Coryn Bailer-Jones, calj@mpia.de)
+# CBJ November 2017 (Coryn Bailer-Jones, calj@mpia.de). Corrected 21 June 2018.
 # General functions
 
 # Return density of a beta function shifted and scaled to lie in range
 # specified by xrange (two element vector).
-gd.betagen <- function(x=NA, xrange=c(0,1), shape1=NA, shape2=NA) {
+d.betagen <- function(x=NA, xrange=c(0,1), shape1=NA, shape2=NA) {
   if(xrange[2]<=xrange[1]) {stop("Need xrange[2]>xrange[1]")}
     return( dbeta((x-xrange[1])/(xrange[2]-xrange[1]), shape1=shape1, shape2=shape2)/(xrange[2]-xrange[1]) )
 }

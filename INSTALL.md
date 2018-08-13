@@ -138,4 +138,19 @@ Rstan. Subsequently make sure that your can run R notebooks by following the
 
 ## Mac OsX
 
-Pending...
+### Python environment
+
+Use anaconda for Mac OsX and follow the instruction above for Linux.
+
+#### PyStan
+
+pending...
+
+### R Environment
+
+Use the `.pkg` file from the [CRAN page](https://cran.r-project.org). Install the packages listed
+above in the Linux section.
+
+#### RStan
+
+pending...
