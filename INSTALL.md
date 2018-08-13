@@ -15,6 +15,7 @@ Subsequently install the following:
 
 ```
 > conda install -c astropy corner
+> pip install pygaia
 > pip install daft (optional)
 ```
 
@@ -83,6 +84,7 @@ installation open the Anaconda prompt and install the following:
 
 ```
 > conda install -c astropy corner
+> pip install pygaia
 > pip install daft (optional)
 ```
 
