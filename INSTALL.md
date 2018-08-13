@@ -62,6 +62,18 @@ of Rstan. Where the last step is to do from within R (run as root for a system w
 > install.packages("rstan", type = "source")
 ```
 
+Note that a `Makevars` file in the ~/.R folder with the following contents is useful for
+optimization of the compiled Stan models and supressing of irrelevant warnings (see [RStan install
+instructions](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux)):
+
+```
+CXXFLAGS=-O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-builtin-macro-redefined
+
+CXXFLAGS+=-flto -Wno-unused-local-typedefs
+
+CXXFLAGS += -Wno-ignored-attributes -Wno-deprecated-declarations
+```
+
 ## Windows (only Windows 10 tested)
 
 ### Python environment
