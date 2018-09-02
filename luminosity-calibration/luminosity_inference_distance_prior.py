@@ -3,7 +3,7 @@ Command line version of the luminosity inference problem discussed in the notebo
 Luminosity_Inference_DistPrior.ipynb, part of the tutorials accompanying the paper by Luri et al. (2018)
 on the use of Gaia astrometry.
 
-Anthony G.A. Brown Nov 2017 - Apr 2018
+Anthony G.A. Brown Nov 2017 - Sep 2018
 <brown@strw.leidenuniv.nl>
 """
 
@@ -54,7 +54,8 @@ def run_luminosity_inference(args):
     if args['surveyplot'] and (not args['noplots']):
         showSurveyStatistics(survey, pdfFile="surveyStats.pdf", usekde=False)
 
-    if args['volumecomplete']:
+    if args['volumecomplete'] or np.isinf(magLimit):
+        # Volume limited case
         stan_data = {'minDist':distMin, 'maxDist':distMax, 'N':survey.numberOfStarsInSurvey,
                 'obsPlx':survey.observedParallaxes, 'errObsPlx':survey.parallaxErrors,
                 'obsMag':survey.observedMagnitudes, 'errObsMag':survey.magnitudeErrors}
@@ -63,7 +64,7 @@ def run_luminosity_inference(args):
         fit = sm.sampling(data = stan_data, pars=['meanAbsMag', 'sigmaAbsMag'], iter=args['staniter'],
                 chains=numChains, thin=args['stanthin'], seed=args['stanseed'])
     else:
-        # For the magnitude limited case, explicit initialization of the true absolute magnitudes is
+        # Magnitude limited case. Explicit initialization of the true absolute magnitudes is
         # needed. See comments in Stan code.
         maxPossibleAbsMag = survey.apparentMagnitudeLimit-5*np.log10(distMax)+5
         initLow = maxPossibleAbsMag - 4
