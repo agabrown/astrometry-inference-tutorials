@@ -385,9 +385,9 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
     deltaAbsMag = estimatedAbsMags - simulatedSurvey.absoluteMagnitudes[positiveParallaxes]
 
     useagab(usetex=False, fontfam='sans')
-    fig = plt.figure(figsize=(18,12))
+    fig = plt.figure(figsize=(27,12))
   
-    axA = fig.add_subplot(2,2,1)
+    axA = fig.add_subplot(2,3,1)
     apply_tufte(axA, withgrid=False)
     axA.set_prop_cycle(cycler('color', get_distinct(3)))
 
@@ -428,7 +428,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
     axA.text(0.025, 0.9, 'a', horizontalalignment='center', verticalalignment='center',
             transform=axA.transAxes, weight='bold', fontsize=30)
 
-    axB = fig.add_subplot(2,2,2)
+    axB = fig.add_subplot(2,3,2)
     apply_tufte(axB, withgrid=False)
     axB.set_prop_cycle(cycler('color', get_distinct(3)))
 
@@ -467,7 +467,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
     axB.text(0.025, 0.9, 'b', horizontalalignment='center', verticalalignment='center',
             transform=axB.transAxes, weight='bold', fontsize=30)
 
-    axC = fig.add_subplot(2,2,3)
+    axC = fig.add_subplot(2,3,3)
     apply_tufte(axC, withgrid=False)
     axC.set_prop_cycle(cycler('color', get_distinct(3)))
 
@@ -510,7 +510,7 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
     axC.text(0.025, 0.9, 'c', horizontalalignment='center', verticalalignment='center',
             transform=axC.transAxes, weight='bold', fontsize=30)
 
-    axD = fig.add_subplot(2,2,4)
+    axD = fig.add_subplot(2,3,4)
     apply_tufte(axD, withgrid=False)
     axD.set_prop_cycle(cycler('color', get_distinct(3)))
     axD.plot(simulatedSurvey.trueParallaxesNoLim,
@@ -532,6 +532,27 @@ def showSurveyStatistics(simulatedSurvey, pdfFile=None, pngFile=None, usekde=Fal
         t.set_fontsize(14)
     axD.text(0.025, 0.9, 'd', horizontalalignment='center', verticalalignment='center',
             transform=axD.transAxes, weight='bold', fontsize=30)
+
+    axE = fig.add_subplot(2,3,5)
+    apply_tufte(axE, withgrid=False)
+    axE.set_prop_cycle(cycler('color', get_distinct(3)))
+    axE.plot(simulatedSurvey.trueParallaxesNoLim, simulatedSurvey.absoluteMagnitudesNoLim, 'k,',
+            label=r'$m_\mathrm{lim}=\infty$')
+    axE.plot(simulatedSurvey.trueParallaxes, simulatedSurvey.absoluteMagnitudes, '.',
+            label=r'$m_\mathrm{{lim}}={0}$'.format(simulatedSurvey.apparentMagnitudeLimit))
+    axE.plot(simulatedSurvey.trueParallaxes[positiveParallaxes],
+            simulatedSurvey.absoluteMagnitudes[positiveParallaxes], '.', label=r'$\varpi>0$')
+    axE.plot(simulatedSurvey.trueParallaxes[goodParallaxes],
+            simulatedSurvey.absoluteMagnitudes[goodParallaxes],
+            'o', label=r'$\varpi/\sigma_\varpi\geq{0:.1f}$'.format(plxSnrLim))
+    axE.set_xlabel(r"$\varpi_\mathrm{true}$ [mas]")
+    axE.set_ylabel("$M_\\mathrm{true}$")
+    axE.axhline(y=simulatedSurvey.meanAbsoluteMagnitude)
+    leg=axE.legend(loc='best', handlelength=0.5, ncol=2)
+    for t in leg.get_texts():
+        t.set_fontsize(14)
+    axE.text(0.025, 0.9, 'e', horizontalalignment='center', verticalalignment='center',
+            transform=axE.transAxes, weight='bold', fontsize=30)
 
     plt.suptitle("Simulated survey statistics: $N_\\mathrm{{stars}}={0}$, ".format(simulatedSurvey.numberOfStars) +
             "$m_\\mathrm{{lim}}={0}$, ".format(simulatedSurvey.apparentMagnitudeLimit) +
