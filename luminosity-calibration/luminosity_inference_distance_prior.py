@@ -51,8 +51,7 @@ def run_luminosity_inference(args):
     survey.generateObservations()
     print("### ... Done ###")
 
-    if args['surveyplot'] and (not args['noplots']):
-        showSurveyStatistics(survey, pdfFile="surveyStats.pdf", usekde=False)
+    showSurveyStatistics(survey, pdfFile="surveyStats.pdf", usekde=False)
 
     if args['volumecomplete'] or np.isinf(magLimit):
         # Volume limited case
@@ -82,18 +81,17 @@ def run_luminosity_inference(args):
         fit = sm.sampling(data = stan_data, pars=['meanAbsMag', 'sigmaAbsMag'], iter=args['staniter'],
                 chains=numChains, thin=args['stanthin'], seed=args['stanseed'], init=initialValuesList)
     
-    print()
-    print(fit)
+    with open('StanSummary.txt','w') as f:
+        print(fit.stansummary(), file=f)
 
     samples = np.vstack([fit.extract()['meanAbsMag'], fit.extract()['sigmaAbsMag']]).transpose()
     
-    if (not args['noplots']):
-        fig = plt.figure(figsize=(8,8))
-        for i in range(1,5):
-            fig.add_subplot(2,2,i)
-        corner.corner(samples, labels=[r'$\mu_M$', r'$\sigma_M$'], truths=[absMagTrue, sigmaAbsMagTrue],
-                truth_color='r', quantiles=[0.16,0.50,0.84], show_titles=True, fig=fig)
-        plt.show()
+    fig = plt.figure(figsize=(8,8))
+    for i in range(1,5):
+        fig.add_subplot(2,2,i)
+    corner.corner(samples, labels=[r'$\mu_M$', r'$\sigma_M$'], truths=[absMagTrue, sigmaAbsMagTrue],
+            truth_color='r', quantiles=[0.16,0.50,0.84], show_titles=True, fig=fig)
+    plt.savefig('cornerplot.pdf')
 
 def parseCommandLineArguments():
     """
@@ -123,8 +121,6 @@ def parseCommandLineArguments():
             {0})""".format(defaultMagLim), default=defaultMagLim, type=float)
     parser.add_argument("--cat", help="""Simulated astrometric catalogue (default {0})""".format(defaultCatalogue),
             choices=['hip','tgas'], default=defaultCatalogue, type=str)
-    parser.add_argument("--surveyplot", action="store_true", help="""Make plot of survey statistics""")
-    parser.add_argument("--noplots", action="store_true", help="""Do not produce any plots (overrides --surveyplot switch)""")
     parser.add_argument("--volumecomplete", action="store_true", help="""Use model for volume complete survey""")
     parser.add_argument("--surveyseed", help="""Random number seed for survey simulation (default None)""", type=int, default=None)
     parser.add_argument("--stanseed", help="""Random number seed for Stan MCMC sampler (default None)""", type=int, default=None)
