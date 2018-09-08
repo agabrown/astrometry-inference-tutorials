@@ -20,6 +20,9 @@ from parallaxsurveys import UniformDistributionSingleLuminosityHip as udslH
 from parallaxsurveys import UniformDistributionSingleLuminosityTGAS as udslT
 from parallaxsurveys import showSurveyStatistics
 
+# The following line ensures that this script can also be run remotely, without a display available.
+plt.switch_backend('agg')
+
 def run_luminosity_inference(args):
     """
     Generate the simulated parallax survey and then perform the Bayesian inference to estimate the mean
