@@ -9,7 +9,7 @@ Anthony G.A. Brown Nov 2017 - Sep 2018
 
 import numpy as np
 import matplotlib.pyplot as plt
-import argparse
+import argparse, json
 from scipy.interpolate import interp1d
 
 import pystan
@@ -39,6 +39,7 @@ def run_luminosity_inference(args):
     absMagTrue = args['muM']
     sigmaAbsMagTrue = args['sigmaM']
     magLimit = args['mlim']
+    stancontrol = json.loads(args['stancontrol'])
 
     numChains = 4
     
@@ -61,7 +62,7 @@ def run_luminosity_inference(args):
         stanmodel = load_stan_code("luminosity_inference_volume_complete_distance_prior.stan")
         sm = stan_cache(stanmodel, model_name="luminosityInferenceDistPriorVC")
         fit = sm.sampling(data = stan_data, pars=['meanAbsMag', 'sigmaAbsMag'], iter=args['staniter'],
-                chains=numChains, thin=args['stanthin'], seed=args['stanseed'])
+                chains=numChains, thin=args['stanthin'], seed=args['stanseed'], control=stancontrol)
     else:
         # Magnitude limited case. Explicit initialization of the true absolute magnitudes is
         # needed. See comments in Stan code.
@@ -79,7 +80,8 @@ def run_luminosity_inference(args):
         stanmodel = load_stan_code("luminosity_inference_distance_prior.stan")
         sm = stan_cache(stanmodel, model_name="luminosityInferenceDistPrior")
         fit = sm.sampling(data = stan_data, pars=['meanAbsMag', 'sigmaAbsMag'], iter=args['staniter'],
-                chains=numChains, thin=args['stanthin'], seed=args['stanseed'], init=initialValuesList)
+                chains=numChains, thin=args['stanthin'], seed=args['stanseed'], init=initialValuesList,
+                control=stancontrol)
     
     with open('StanSummary.txt','w') as f:
         print(fit.stansummary(), file=f)
@@ -128,6 +130,9 @@ def parseCommandLineArguments():
             (default {0})""".format(defaultStanIter), type=int, default=defaultStanIter)
     parser.add_argument("--stanthin", help="""Thinning parameter for Stan MCMC sampler (default {0})"""
             .format(defaultStanThin), type=int, default=defaultStanThin)
+    parser.add_argument("--stancontrol", help="""Dictionary of parameters to control the sampler’s
+            behavior, formulated as JSON string (example: '{"max_treedepth":10}')""", type=str,
+            default='{}')
     args=vars(parser.parse_args())
     return args
 
