@@ -2,8 +2,7 @@
 This tool estimates the distance and the distance 
 modulus from the trigonometric parallaxes using two
 Bayesian Methods with the priors suggested by Coryn 
-Bayler Jones (http://iopscience.iop.org/article/
-10.1086/683116/pdf) and a frequentist method called 
+Bailer-Jones (http://iopscience.iop.org/article/10.1086/683116/pdf) and a frequentist method called 
 the Transformation Method described by Haywood Smith 
 (http://www.astro.ufl.edu/~asthcs/BadH2.pdf).
 
