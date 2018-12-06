@@ -1,0 +1,14 @@
+channels:
+    - conda-forge
+    - astropy
+dependencies:
+    - matplotlib
+    - numpy
+    - scikit-learn
+    - astropy
+    - corner
+    - pip
+    - pip:
+        - pystan
+        - pygaia
+        - daft
