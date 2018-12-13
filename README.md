@@ -4,6 +4,11 @@ al. 2018, A&A Special Issue for Gaia DR2](https://doi.org/10.1051/0004-6361/2018
 available on [arxiv.org](https://arxiv.org/abs/1804.09376)) describing recommended practices for the
 use of astrometric data (in particular parallaxes) in astronomical data analysis problems.
 
+You can launch the tutorials through [binder](https://mybinder.org). This was installed in 2018.12.12 and is not yet working
+properly.
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/agabrown/astrometry-inference-tutorials/v1.0)
+
 ## Getting things to work
 
 Installation instructions to make sure you have everything needed to run the tutorials are [here](INSTALL.md).
