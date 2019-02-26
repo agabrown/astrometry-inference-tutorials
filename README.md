@@ -7,7 +7,7 @@ use of astrometric data (in particular parallaxes) in astronomical data analysis
 You can launch the tutorials through [binder](https://mybinder.org). This was installed on 2018.12.12 and is not yet working
 properly.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/agabrown/astrometry-inference-tutorials/v1.1-beta1)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/agabrown/astrometry-inference-tutorials/v1.1-beta2)
 
 ## Getting things to work
 
