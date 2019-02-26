@@ -1,0 +1,8 @@
+install.packages("mvtnorm")
+install.packages("PolynomF")
+install.packages("fields")
+install.packages("RColorBrewer")
+install.packages("png")
+install.packages("ggplot2")
+Sys.setenv(MAKEFLAGS = "-j4")
+install.packages("rstan", type = "source")
