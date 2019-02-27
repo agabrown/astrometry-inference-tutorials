@@ -54,9 +54,12 @@ version](./period-luminosity-relation/TutorialPLZ_R.ipynb) of that tutorial.
 
 #### RStan
 
-Follow the instructions
-[here](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux) for the installation
-of Rstan. Where the last step is to do from within R (run as root for a system wide installation):
+The recommended installation method for RStan (working with RStudio) can be found
+[here](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started).
+
+To install from source follow the instructions
+[here](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Linux) for the installation of
+Rstan. Where the last step is to do from within R (run as root for a system wide installation):
 
 ```
 > Sys.setenv(MAKEFLAGS = "-j4") 
@@ -65,7 +68,7 @@ of Rstan. Where the last step is to do from within R (run as root for a system w
 
 Note that a `Makevars` file in the ~/.R folder with the following contents is useful for
 optimization of the compiled Stan models and supressing of irrelevant warnings (see [RStan install
-instructions](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Mac-or-Linux)):
+instructions](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Linux)):
 
 ```
 CXXFLAGS=-O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-builtin-macro-redefined
@@ -129,9 +132,14 @@ version](./period-luminosity-relation/TutorialPLZ_R.ipynb) of that tutorial.
 
 #### RStan
 
-Now follow the instructions
-[here](https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows) for the installation of
-Rstan. Subsequently make sure that your can run R notebooks by following the
+The recommended installation method for RStan (working with RStudio) can be found
+[here](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started).
+
+To install from source follow the instructions
+[here](https://github.com/stan-dev/rstan/wiki/Installing-RStan-from-source-on-Windows) for the
+installation of Rstan. 
+
+Subsequently make sure that your can run R notebooks by following the
 [instructions](https://irkernel.github.io/installation/) on
 [irkernel.github.io](https://irkernel.github.io). Step 1/2 should be done while running as R as
 "administrator".
