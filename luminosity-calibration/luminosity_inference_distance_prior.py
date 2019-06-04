@@ -69,7 +69,7 @@ def run_luminosity_inference(args):
     else:
         # Magnitude limited case. Explicit initialization of the true absolute magnitudes is
         # needed. See comments in Stan code.
-        maxPossibleAbsMag = survey.apparentMagnitudeLimit-5*np.log10(distMax)+5
+        maxPossibleAbsMag = min(survey.apparentMagnitudeLimit-5*np.log10(distMax)+5, 2)
         initLow = maxPossibleAbsMag - 4
         initialValuesList = []
         for i in range(numChains):
