@@ -67,15 +67,7 @@ def run_luminosity_inference(args):
         fit = sm.sampling(data = stan_data, pars=['meanAbsMag', 'sigmaAbsMag'], iter=args['staniter'],
                 chains=numChains, thin=args['stanthin'], seed=args['stanseed'], control=stancontrol)
     else:
-        # Magnitude limited case. Explicit initialization of the true absolute magnitudes is
-        # needed. See comments in Stan code.
-        maxPossibleAbsMag = min(survey.apparentMagnitudeLimit-5*np.log10(distMax)+5, 2)
-        initLow = maxPossibleAbsMag - 4
-        initialValuesList = []
-        for i in range(numChains):
-            initialValuesList.append( dict(absMag=np.random.uniform(initLow, maxPossibleAbsMag,
-                size=survey.numberOfStarsInSurvey)) )
-
+        # Magnitude limited case. 
         stan_data = {'minDist':distMin, 'maxDist':distMax, 'surveyLimit':survey.apparentMagnitudeLimit,
                 'N':survey.numberOfStarsInSurvey, 'obsPlx':survey.observedParallaxes,
                 'errObsPlx':survey.parallaxErrors, 'obsMag':survey.observedMagnitudes,
@@ -83,8 +75,7 @@ def run_luminosity_inference(args):
         stanmodel = load_stan_code("luminosity_inference_distance_prior.stan")
         sm = stan_cache(stanmodel, model_name="luminosityInferenceDistPrior")
         fit = sm.sampling(data = stan_data, pars=['meanAbsMag', 'sigmaAbsMag'], iter=args['staniter'],
-                chains=numChains, thin=args['stanthin'], seed=args['stanseed'], init=initialValuesList,
-                control=stancontrol)
+                chains=numChains, thin=args['stanthin'], seed=args['stanseed'], control=stancontrol)
     
     with open('StanSummary.txt','w') as f:
         print(fit.stansummary(), file=f)
