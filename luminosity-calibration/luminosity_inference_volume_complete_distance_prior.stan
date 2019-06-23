@@ -9,7 +9,7 @@
  * See chapter 16 in 'Astrometry for Astrophysics', 2013, edited by W.F. van Altena (Cambridge
  * University Press).
  *
- * Anthony G.A. Brown Nov 2017 - Jan 2018
+ * Anthony G.A. Brown Nov 2017 - Jun 2019
  * <brown@strw.leidenuniv.nl>
  */
 
@@ -45,8 +45,8 @@ functions {
 }
 
 data {
-    real minDist;                    // Assumed minimum possible distance
-    real maxDist;                    // Assumed maximum possible distance
+    real minDist;                    // Minimum possible distance (treated as known parameter here)
+    real maxDist;                    // Maximum possible distance (treated as known parameter here)
     int<lower=0> N;                  // Number of stars in survey
     vector[N] obsPlx;                // List of observed parallaxes
     vector<lower=0>[N] errObsPlx;    // List of parallax errors
@@ -59,8 +59,8 @@ transformed data {
 
 parameters {
     real meanAbsMag;                            // Mean of absolute magnitude distribution
-    real<lower=0.01> sigmaAbsMag;               // Standard deviation of absolute magnitude distribution (lower bound of 0.01 to avoid sampling sigma=0)
-    vector<lower=minDist, upper=maxDist>[N] r;  // True distance, bounded by assumed minimum and maximum values
+    real<lower=0> sigmaAbsMag;                  // Standard deviation of absolute magnitude distribution
+    vector<lower=minDist, upper=maxDist>[N] r;  // True distance, bounded by known minimum and maximum values
     vector[N] absMag;                           // True absolute magnitudes
 }
 
@@ -73,8 +73,8 @@ transformed parameters {
 }
 
 model {
-    meanAbsMag ~ normal(5.5, 10.5);            // Hyperprior on mean absolute magnitude (broadly between -5 and 16)
-    sigmaAbsMag ~ normal(0, 2) T[0,];          // Hyperprior on standard deviation of absolute magnitude (half-normal positive)
+    meanAbsMag ~ normal(5.5, 10.5);            // Prior on mean absolute magnitude (broadly between -5 and 16)
+    sigmaAbsMag ~ gamma(2, 1);                 // Prior on standard deviation of absolute magnitude
     absMag ~ normal(meanAbsMag, sigmaAbsMag);  // Model absolute magnitude distribution for single class of stars
     r ~ distance_prior(minDist, maxDist, 2.0); // Prior on distance distribution
     obsPlx ~ normal(plx, errObsPlx);           // Likelihood observed parallax

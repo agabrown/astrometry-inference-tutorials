@@ -11,7 +11,7 @@
  * See chapter 16 in 'Astrometry for Astrophysics', 2013, edited by W.F. van Altena (Cambridge
  * University Press) for a discussion of the volume limited case.
  *
- * Anthony G.A. Brown Nov 2017 - Jan 2018
+ * Anthony G.A. Brown Nov 2017 - Jun 2019
  * <brown@strw.leidenuniv.nl>
  */
 
@@ -36,6 +36,7 @@ functions {
      * @return Natural logarithm of the probability density at r.
      * @throws If the parameters of the PDF do not satisfy the conditions above.
      */
+    /*
     real distance_prior_lpdf(real r, real rmin, real rmax, real alpha) {
         if (rmin < 0 || rmax <= rmin || alpha < 0) {
             reject("The following conditions must be satisfied: rmin>=0, rmax>rmin, alpha>=0; found rmin = ", rmin, ", rmax = ", rmax, ", alpha = ", alpha);
@@ -44,25 +45,15 @@ functions {
             return negative_infinity();
         }
         return log(alpha+1) - log(pow(rmax, alpha+1) - pow(rmin, alpha+1)) + alpha*log(r);
-    }
-
-    /**
-     * Provide the PDF of the joint prior on distance and true absolute magnitude. This distribution
-     * is the product of the distance prior above and the normal distribution for the true absolute
-     * magnitude
-     *
-     * @param rM Vector representing distance and true absolute magnitude (in that order!).
-     * @param rmin Lower bound of the distance distribution
-     * @param rmax Upper bound of the distance distribution
-     * @param alpha Shape parameter of the distance distribution (alpha >=0)
-     * @param mu Mean of the normal distribution for the true absolute magnitude
-     * @param sigma Standard deviation of the normal distribution for the true absolute magnitude
-     * @param mlim The suvey limit
-     */
-    real distance_absmag_joint_prior_lpdf(vector rM, real rmin, real rmax, real alpha, real mu, real sigma, real mlim) {
-        if (rM[2]+5*log10(rM[1])-5 > mlim)
+    }*/
+    real distance_prior_lpdf(vector r, real rmin, real rmax, real alpha) {
+        if (rmin < 0 || rmax <= rmin || alpha < 0) {
+            reject("The following conditions must be satisfied: rmin>=0, rmax>rmin, alpha>=0; found rmin = ", rmin, ", rmax = ", rmax, ", alpha = ", alpha);
+        }
+        if (min(r) < rmin || max(r) > rmax) {
             return negative_infinity();
-        return distance_prior_lpdf(rM[1] | rmin, rmax, alpha) + normal_lpdf(rM[2] | mu, sigma);
+        }
+        return num_elements(r) * ( log(alpha+1) - log(pow(rmax, alpha+1) - pow(rmin, alpha+1)) ) + alpha*sum(log(r));
     }
 
     /**
@@ -119,8 +110,8 @@ functions {
 }
 
 data {
-    real minDist;                         // Assumed minimum possible distance
-    real maxDist;                         // Assumed maximum possible distance
+    real minDist;                         // Minimum possible distance (treated as known parameter)
+    real maxDist;                         // Maximum possible distance (treated as known parameter)
     real surveyLimit;                     // Apparent magnitude limit of survey
     int<lower=0> N;                       // Number of stars in survey
     vector[N] obsPlx;                     // List of observed parallaxes
@@ -138,23 +129,16 @@ transformed data {
 
 parameters {
     real meanAbsMag;                            // Mean of absolute magnitude distribution
-    real<lower=0.01> sigmaAbsMag;               // Standard deviation of absolute magnitude distribution (lower bound of 0.01 to avoid sampling sigma=0)
-    vector<lower=minDist, upper=maxDist>[N] r;  // True distance, bounded by assumed minimum and maximum values
-    vector[N] absMag;                           // True absolute magnitudes. NOTE: this needs to be initialized by the user explicitly to avoid
-                                                // that Stan chooses initial values of the absolute magnitudes that lead to apparent magnitudes beyond
-                                                // the survey limit (without more information Stan will intialize with values between -2 and 2 and in
-                                                // distant samples this can lead to choices that cannot occur in the survey). As initial values choose
-                                                // something below surveyLimit-5*log10(maxDist)+5.
+    real<lower=0> sigmaAbsMag;                  // Standard deviation of absolute magnitude distribution
+    vector<lower=minDist, upper=maxDist>[N] r;  // True distance, bounded by known minimum and maximum values
+    vector[N] absMag;                           // True absolute magnitudes. 
 }
 
 transformed parameters {
     vector[N] predictedMag = absMag + 5.0*log10(r) - 5.0;  // Predicted true apparent magnitude for each star (distance in pc)
     vector<lower=0>[N] plx;                                // True parallax (in units of mas)
-    matrix[2,N] r_absMag;                                  // Distance and true absolute magnitude latent variables.
     for (k in 1:N) {
-        r_absMag[1,k] = r[k];
-        r_absMag[2,k] = absMag[k];
-        plx[k] = 1000.0/r[k];
+      plx[k] = 1000.0/r[k];
     }
 }
 
@@ -168,13 +152,11 @@ model {
     theta[3] = 2.0;
     theta[6] = surveyLimit;
 
-    meanAbsMag ~ normal(5.5, 10.5);            // Hyperprior on mean absolute magnitude (broadly between -5 and 16)
-    sigmaAbsMag ~ normal(0, 2);          // Hyperprior on standard deviation of absolute magnitude (truncated below zero)
+    meanAbsMag ~ normal(5.5, 10.5);            // Prior on mean absolute magnitude (broadly between -5 and 16)
+    sigmaAbsMag ~ gamma(2,1);                  // Prior on standard deviation in absolute magnitude
 
-    // Joint distribution of r and M_true
-    for (k in 1:N) {
-        r_absMag[:,k] ~ distance_absmag_joint_prior(minDist, maxDist, 2.0, meanAbsMag, sigmaAbsMag, surveyLimit);
-    }
+    absMag ~ normal(meanAbsMag, sigmaAbsMag);  // Model absolute magnitude distribution for single class of stars
+    r ~ distance_prior(minDist, maxDist, 2.0); // Prior on distance distribution
     
     obsPlx ~ normal(plx, errObsPlx);           // Likelihood observed parallax
     obsMag ~ normal(predictedMag, errObsMag);  // Likelihood for observed apparent magnitude
