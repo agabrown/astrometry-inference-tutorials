@@ -12,9 +12,17 @@ from pyrallaxes import *
 import numpy as np
 from PIL import ImageTk, Image
 import pickle
+import warnings
 #import Image as im
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+try:
+    # NavigationToolbar2TkAgg was deprecated in matplotlib 2.2 and is no
+    # longer present in v3.0 - so a version test would also be possible.
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+except ImportError:
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+except:
+    raise
 from matplotlib.figure import Figure
 #from main import *
 LARGE_FONT = ("Verdana", 12)
@@ -99,7 +107,14 @@ class PDFWindow(tk.Tk):
         pdf.set_title('Probability Distribution Function')
         
         dataPlot = FigureCanvasTkAgg(self.fig, master=self.container)
-        dataPlot.show()
+        if hasattr(dataPlot, 'show'):
+            # Deprecated version
+            dataPlot.show()
+        elif hasattr(dataPlot, 'draw'):
+            dataPlot.draw()
+        else:
+            warnings.warn("Cannot show the plot with either dataPlot.show() or dataPlot.draw()")
+            return
         dataPlot.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
         
         
